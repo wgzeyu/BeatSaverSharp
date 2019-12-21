@@ -31,7 +31,7 @@ namespace BeatSaverSharp
             headersInit = true;
 
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Client.DefaultRequestHeaders.Add("User-Agent", $"BeatSaver.Net/{version}");
+            Client.DefaultRequestHeaders.Add("User-Agent", $"BeatSaverSharp/{version}");
         }
 
         internal static async Task<HttpResponse> GetAsync(string url, CancellationToken token, IProgress<double> progress = null)
