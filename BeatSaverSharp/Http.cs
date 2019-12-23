@@ -41,9 +41,9 @@ namespace BeatSaverSharp
 
         internal static readonly Http Default = new Http(new HttpOptions()
         {
-            ApplicationName = "Test",
-            Version = new Version(1, 0),
-            Timeout = TimeSpan.FromSeconds(1),
+            ApplicationName = null,
+            Version = null,
+            Timeout = TimeSpan.FromSeconds(30),
         });
 
         internal HttpClient Client { get; private set; }
