@@ -24,16 +24,18 @@ namespace BeatSaverSharp
         /// <summary>
         /// Instantiate a partial Beatmap
         /// </summary>
+        /// <param name="client">BeatSaver Client</param>
         /// <param name="key">Hex Key</param>
         /// <param name="hash">SHA1 Hash</param>
         /// <param name="name">Beatmap Name</param>
-        public Beatmap(string key = null, string hash = null, string name = null)
+        public Beatmap(BeatSaver client = null, string key = null, string hash = null, string name = null)
         {
             if (key == null && hash == null)
             {
                 throw new ArgumentException("Key and Hash cannot both be null");
             }
 
+            Client = client ?? BeatSaver.Client;
             if (key != null) Key = key;
             if (hash != null) Hash = hash;
             if (name != null) Name = name;
