@@ -48,6 +48,34 @@ namespace BeatSaverSharp
         public static async Task<Beatmap> FromHash(string hash, CancellationToken token, IProgress<double> progress = null) => await BeatSaver.Hash(hash, token, progress);
         #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Instantite a blank Beatmap
+        /// </summary>
+        [JsonConstructor]
+        public Beatmap() { }
+
+        /// <summary>
+        /// Instantiate a partial Beatmap
+        /// </summary>
+        /// <param name="key">Hex Key</param>
+        /// <param name="hash">SHA1 Hash</param>
+        /// <param name="name">Beatmap Name</param>
+        public Beatmap(string key = null, string hash = null, string name = null)
+        {
+            if (key == null && hash == null)
+            {
+                throw new ArgumentException("Key and Hash cannot both be null");
+            }
+
+            if (key != null) Key = key;
+            if (hash != null) Hash = hash;
+            if (name != null) Name = name;
+
+            Partial = true;
+        }
+        #endregion
+
         #region JSON Properties
         /// <summary>
         /// Unique ID
@@ -107,6 +135,14 @@ namespace BeatSaverSharp
         public string CoverURL { get; private set; }
 
         /// <summary>
+        /// SHA1 Hash
+        /// </summary>
+        [JsonProperty("hash")]
+        public string Hash { get; private set; }
+        #endregion
+
+        #region Properties
+        /// <summary>
         /// File name for the Cover Art
         /// </summary>
         [JsonIgnore]
@@ -116,13 +152,48 @@ namespace BeatSaverSharp
         }
 
         /// <summary>
-        /// SHA1 Hash
+        /// Beatmap contains partial data
         /// </summary>
-        [JsonProperty("hash")]
-        public string Hash { get; private set; }
+        [JsonIgnore]
+        public bool Partial { get; private set; }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Populate a partial Beatmap with data
+        /// </summary>
+        /// <returns></returns>
+        public async Task Populate()
+        {
+            if (Key == null && Hash == null)
+            {
+                throw new InvalidPartialException("Key and Hash cannot both be null");
+            }
+
+            if (Partial == false) return;
+            Partial = false;
+
+            Beatmap map = Hash != null ? await FromHash(Hash) : await FromKey(Key);
+            if (map == null)
+            {
+                if (Hash != null) throw new InvalidPartialHashException(Hash);
+                else if (Key != null) throw new InvalidPartialKeyException(Key);
+                else throw new InvalidPartialException();
+            }
+
+            ID = map.ID;
+            Key = map.Key;
+            Name = map.Name;
+            Description = map.Description;
+            Uploader = map.Uploader;
+            Metadata = map.Metadata;
+            Stats = map.Stats;
+            DirectDownload = map.DirectDownload;
+            DownloadURL = map.DownloadURL;
+            CoverURL = map.CoverURL;
+            Hash = map.Hash;
+        }
+
         /// <summary>
         /// Fetch latest values
         /// </summary>
