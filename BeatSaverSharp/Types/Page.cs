@@ -12,6 +12,7 @@ namespace BeatSaverSharp
     /// </summary>
     public sealed class Page
     {
+        #region JSON Properties
         /// <summary>
         /// Documents on this page
         /// </summary>
@@ -41,12 +42,19 @@ namespace BeatSaverSharp
         /// </summary>
         [JsonProperty("nextPage")]
         public int? NextPage { get; set; }
+        #endregion
+
+        #region Properties
+        [JsonIgnore]
+        internal BeatSaver Client { get; set; }
 
         [JsonIgnore]
         internal string PageURI { get; set; }
         [JsonIgnore]
         internal string Query { get; set; }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Fetch the previous page in this sequence
         /// </summary>
@@ -65,7 +73,7 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{PreviousPage}";
             if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress);
 
             p.PageURI = PageURI;
             p.Query = Query;
@@ -91,12 +99,13 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{NextPage}";
             if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress);
 
             p.PageURI = PageURI;
 
             p.Query = Query;
             return p;
         }
+        #endregion
     }
 }

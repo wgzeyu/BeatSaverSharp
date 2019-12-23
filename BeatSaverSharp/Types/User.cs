@@ -23,6 +23,11 @@ namespace BeatSaverSharp
         public string Username { get; private set; }
         #endregion
 
+        #region Properties
+        [JsonIgnore]
+        internal BeatSaver Client { get; set; }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Fetch all Beatmaps uploaded by this user
@@ -42,7 +47,7 @@ namespace BeatSaverSharp
             string pageURI = $"maps/{PageType.Uploader}/{ID}";
             string url = $"{pageURI}/{page}";
 
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress);
             p.PageURI = pageURI;
 
             return p;

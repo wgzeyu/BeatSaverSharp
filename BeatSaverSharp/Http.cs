@@ -14,30 +14,66 @@ using BeatSaverSharp.Exceptions;
 
 namespace BeatSaverSharp
 {
-    internal class Http
+    /// <summary>
+    /// HTTP Options
+    /// </summary>
+    public struct HttpOptions
     {
-        private static bool headersInit = false;
-        internal static HttpClient Client = new HttpClient()
+        /// <summary>
+        /// Application Name
+        /// </summary>
+        public string ApplicationName { get; set; }
+
+        /// <summary>
+        /// Application Version
+        /// </summary>
+        public Version Version { get; set; }
+
+        /// <summary>
+        /// Optional HTTP Timeout Override
+        /// </summary>
+        public TimeSpan? Timeout { get; set; }
+    }
+
+    internal sealed class Http
+    {
+        internal static readonly JsonSerializer Serializer = new JsonSerializer();
+
+        internal static readonly Http Default = new Http(new HttpOptions()
         {
-            BaseAddress = new Uri($"{BeatSaver.BaseURL}/api/"),
-            Timeout = TimeSpan.FromSeconds(30),
-        };
+            ApplicationName = "Test",
+            Version = new Version(1, 0),
+            Timeout = TimeSpan.FromSeconds(1),
+        });
 
-        internal static JsonSerializer Serializer = new JsonSerializer();
+        internal HttpClient Client { get; private set; }
 
-        private static void InitHeaders()
+        internal Http(HttpOptions options = new HttpOptions())
         {
-            if (headersInit == true) return;
-            headersInit = true;
+            if ((options.ApplicationName != null && options.Version == null) || (options.ApplicationName == null && options.Version != null))
+            {
+                throw new ArgumentException("You must specify either both or none of ApplicationName and Version");
+            }
 
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Client.DefaultRequestHeaders.Add("User-Agent", $"BeatSaverSharp/{version}");
+            Client = new HttpClient()
+            {
+                BaseAddress = new Uri($"{BeatSaver.BaseURL}/api/"),
+                Timeout = options.Timeout ?? TimeSpan.FromSeconds(30),
+            };
+
+            string libVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string userAgent = $"BeatSaverSharp/{libVersion}";
+
+            if (options.ApplicationName != null)
+            {
+                userAgent = $"{options.ApplicationName}/{options.Version.ToString()} {userAgent}";
+            }
+
+            Client.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
-        internal static async Task<HttpResponse> GetAsync(string url, CancellationToken token, IProgress<double> progress = null)
+        internal async Task<HttpResponse> GetAsync(string url, CancellationToken token, IProgress<double> progress = null)
         {
-            InitHeaders();
-
             HttpResponseMessage resp = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
             if ((int)resp.StatusCode == 429)
             {

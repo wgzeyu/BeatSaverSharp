@@ -14,40 +14,6 @@ namespace BeatSaverSharp
     /// </summary>
     public sealed class Beatmap : IEquatable<Beatmap>
     {
-        #region Static Methods
-        /// <summary>
-        /// Fetch a Beatmap by Key
-        /// </summary>
-        /// <param name="key">Hex Key</param>
-        /// <param name="progress">Optional progress reporter</param>
-        /// <returns></returns>
-        public static async Task<Beatmap> FromKey(string key, IProgress<double> progress = null) => await BeatSaver.Key(key, progress);
-        /// <summary>
-        /// Fetch a Beatmap by Key
-        /// </summary>
-        /// <param name="key">Hex Key</param>
-        /// <param name="token">Cancellation token</param>
-        /// <param name="progress">Optional progress reporter</param>
-        /// <returns></returns>
-        public static async Task<Beatmap> FromKey(string key, CancellationToken token, IProgress<double> progress = null) => await BeatSaver.Key(key, token, progress);
-
-        /// <summary>
-        /// Fetch a Beatmap by Hash
-        /// </summary>
-        /// <param name="hash">SHA1 Hash</param>
-        /// <param name="progress">Optional progress reporter</param>
-        /// <returns></returns>
-        public static async Task<Beatmap> FromHash(string hash, IProgress<double> progress = null) => await BeatSaver.Hash(hash, progress);
-        /// <summary>
-        /// Fetch a Beatmap by Hash
-        /// </summary>
-        /// <param name="hash">SHA1 Hash</param>
-        /// <param name="token">Cancellation token</param>
-        /// <param name="progress">Optional progress reporter</param>
-        /// <returns></returns>
-        public static async Task<Beatmap> FromHash(string hash, CancellationToken token, IProgress<double> progress = null) => await BeatSaver.Hash(hash, token, progress);
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Instantite a blank Beatmap
@@ -142,13 +108,16 @@ namespace BeatSaverSharp
         #endregion
 
         #region Properties
+        [JsonIgnore]
+        internal BeatSaver Client { get; set; }
+
         /// <summary>
         /// File name for the Cover Art
         /// </summary>
         [JsonIgnore]
         public string CoverFilename
         {
-            get => System.IO.Path.GetFileName(CoverURL);
+            get => Path.GetFileName(CoverURL);
         }
 
         /// <summary>
@@ -172,7 +141,7 @@ namespace BeatSaverSharp
 
             if (Partial == false) return;
 
-            Beatmap map = Hash != null ? await FromHash(Hash) : await FromKey(Key);
+            Beatmap map = Hash != null ? await Client.Hash(Hash) : await Client.Key(Key);
             if (map == null)
             {
                 if (Hash != null) throw new InvalidPartialHashException(Hash);
@@ -201,7 +170,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task Refresh()
         {
-            Beatmap b = await FromHash(Hash);
+            Beatmap b = await Client.Hash(Hash);
 
             Name = b.Name;
             Description = b.Description;
@@ -214,7 +183,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task RefreshStats()
         {
-            Beatmap b = await FromHash(Hash);
+            Beatmap b = await Client.Hash(Hash);
             Stats = b.Stats;
         }
 
@@ -267,7 +236,7 @@ namespace BeatSaverSharp
             string json = JsonConvert.SerializeObject(payload);
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var resp = await Http.Client.PostAsync($"vote/steam/{Key}", content);
+            var resp = await Client.HttpClient.PostAsync($"vote/steam/{Key}", content);
             if (resp.IsSuccessStatusCode)
             {
                 using (Stream s = await resp.Content.ReadAsStreamAsync())
@@ -344,7 +313,7 @@ namespace BeatSaverSharp
         public async Task<byte[]> DownloadZip(bool direct, CancellationToken token, IProgress<double> progress = null)
         {
             string url = direct ? DirectDownload : DownloadURL;
-            var resp = await Http.GetAsync(url, token, progress).ConfigureAwait(false);
+            var resp = await Client.HttpInstance.GetAsync(url, token, progress).ConfigureAwait(false);
 
             return resp.Bytes();
         }
@@ -364,7 +333,7 @@ namespace BeatSaverSharp
         public async Task<byte[]> FetchCoverImage(CancellationToken token, IProgress<double> progress = null)
         {
             string url = $"{BeatSaver.BaseURL}{CoverURL}";
-            var resp = await Http.GetAsync(url, token, progress).ConfigureAwait(false);
+            var resp = await Client.HttpInstance.GetAsync(url, token, progress).ConfigureAwait(false);
 
             return resp.Bytes();
         }
