@@ -12,7 +12,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// BeatSaver Beatmap
     /// </summary>
-    public sealed class Beatmap
+    public sealed class Beatmap : IEquatable<Beatmap>
     {
         #region Static Methods
         /// <summary>
@@ -295,6 +295,74 @@ namespace BeatSaverSharp
             var resp = await Http.GetAsync(url, token, progress).ConfigureAwait(false);
 
             return resp.Bytes();
+        }
+        #endregion
+
+        #region Equality
+        /// <summary>
+        /// Check for value equality
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj) => Equals(obj as Beatmap);
+
+        /// <summary>
+        /// Check for value equality
+        /// </summary>
+        /// <param name="b">Beatmap to compare against</param>
+        /// <returns></returns>
+        public bool Equals(Beatmap b)
+        {
+            if (b is null) return false;
+            if (ReferenceEquals(this, b)) return true;
+            if (this.GetType() != b.GetType()) return false;
+
+            return (ID == b.ID) && (Key == b.Key) && (Hash == b.Hash);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                const int HashingBase = (int)2166136261;
+                const int HashingMultiplier = 16777619;
+
+                int hash = HashingBase;
+                hash = (hash * HashingMultiplier) ^ (ID is null ? 0 : ID.GetHashCode());
+                hash = (hash * HashingMultiplier) ^ (Key is null ? 0 : Key.GetHashCode());
+                hash = (hash * HashingMultiplier) ^ (Hash is null ? 0 : Hash.GetHashCode());
+
+                return hash;
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static bool operator ==(Beatmap lhs, Beatmap rhs)
+        {
+            if (lhs is null)
+            {
+                if (rhs is null) return true;
+                else return false;
+            }
+
+            return lhs.Equals(rhs);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static bool operator !=(Beatmap lhs, Beatmap rhs)
+        {
+            return !(lhs == rhs);
         }
         #endregion
     }
