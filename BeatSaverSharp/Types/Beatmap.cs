@@ -53,58 +53,58 @@ namespace BeatSaverSharp
         /// Unique ID
         /// </summary>
         [JsonProperty("_id")]
-        public string ID { get; set; }
+        public string ID { get; private set; }
 
         /// <summary>
         /// Hex Key
         /// </summary>
         [JsonProperty("key")]
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Multiline description. Can be null.
         /// </summary>
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         /// <summary>
         /// User who uploaded this beatmap
         /// </summary>
         [JsonProperty("uploader")]
-        public User Uploader { get; set; }
+        public User Uploader { get; private set; }
 
         /// <summary>
         /// Metadata for the Beatmap .dat file
         /// </summary>
         [JsonProperty("metadata")]
-        public Metadata Metadata { get; set; }
+        public Metadata Metadata { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("stats")]
-        public Stats Stats { get; set; }
+        public Stats Stats { get; private set; }
 
         /// <summary>
         /// Direct Download URL. Skips the download counter.
         /// </summary>
         [JsonProperty("directDownload")]
-        public string DirectDownload { get; set; }
+        public string DirectDownload { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("downloadURL")]
-        public string DownloadURL { get; set; }
+        public string DownloadURL { get; private set; }
 
         /// <summary>
         /// URL for the Cover Art
         /// </summary>
         [JsonProperty("coverURL")]
-        public string CoverURL { get; set; }
+        public string CoverURL { get; private set; }
 
         /// <summary>
         /// File name for the Cover Art
@@ -119,7 +119,7 @@ namespace BeatSaverSharp
         /// SHA1 Hash
         /// </summary>
         [JsonProperty("hash")]
-        public string Hash { get; set; }
+        public string Hash { get; private set; }
         #endregion
 
         #region Methods

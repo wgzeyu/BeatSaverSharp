@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -14,12 +14,12 @@ namespace BeatSaverSharp
         /// Unique ID
         /// </summary>
         [JsonProperty("_id")]
-        public string ID { get; set; }
+        public string ID { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("username")]
-        public string Username { get; set; }
+        public string Username { get; private set; }
 
         /// <summary>
         /// Fetch all Beatmaps uploaded by this user
