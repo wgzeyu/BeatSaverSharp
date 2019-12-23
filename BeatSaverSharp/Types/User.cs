@@ -10,6 +10,7 @@ namespace BeatSaverSharp
     /// </summary>
     public sealed class User
     {
+        #region JSON Properties
         /// <summary>
         /// Unique ID
         /// </summary>
@@ -20,7 +21,9 @@ namespace BeatSaverSharp
         /// </summary>
         [JsonProperty("username")]
         public string Username { get; private set; }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Fetch all Beatmaps uploaded by this user
         /// </summary>
@@ -44,5 +47,6 @@ namespace BeatSaverSharp
 
             return p;
         }
+        #endregion
     }
 }
