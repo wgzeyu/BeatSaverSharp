@@ -82,7 +82,7 @@ namespace BeatSaverSharp
 
         internal async Task<Page> FetchSearchPage(string searchType, string query, uint page, CancellationToken token, IProgress<double> progress = null)
         {
-            if (query == null) throw new ArgumentNullException("query");
+            if (query == null) throw new ArgumentNullException(nameof(query), "Query string cannot be null");
 
             string encoded = HttpUtility.UrlEncode(query);
             string pageURI = $"search/{searchType}";
