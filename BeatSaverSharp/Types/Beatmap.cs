@@ -171,7 +171,6 @@ namespace BeatSaverSharp
             }
 
             if (Partial == false) return;
-            Partial = false;
 
             Beatmap map = Hash != null ? await FromHash(Hash) : await FromKey(Key);
             if (map == null)
@@ -192,6 +191,8 @@ namespace BeatSaverSharp
             DownloadURL = map.DownloadURL;
             CoverURL = map.CoverURL;
             Hash = map.Hash;
+
+            Partial = false;
         }
 
         /// <summary>
