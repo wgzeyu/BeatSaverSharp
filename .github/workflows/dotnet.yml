@@ -16,6 +16,7 @@ jobs:
       shell: bash
       run: |
         find "BeatSaverSharp/bin/Release" -type f ! -name "BeatSaverSharp.*" -delete
+        find "BeatSaverSharp/bin/Release" -type f -name "*.deps.json" -delete
         cp "LICENSE" "BeatSaverSharp/bin/Release/LICENSE.BeatSaverSharp.txt"
     - name: Upload DLLs
       uses: actions/upload-artifact@v1
