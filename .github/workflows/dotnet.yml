@@ -8,34 +8,25 @@ jobs:
     - uses: actions/checkout@v1
     - name: Setup MSBuild
       uses: warrenbuckley/Setup-MSBuild@v1
-    - name: Install dependencies
-      run: msbuild -t:restore
-    - name: Build project
-      run: msbuild BeatSaverSharp/BeatSaverSharp.csproj /t:Build /p:Configuration=Release
-    - name: Prepare artifact
-      shell: bash
-      run: |
-        find "BeatSaverSharp/bin/Release" -type f ! -name "BeatSaverSharp.*" -delete
-        find "BeatSaverSharp/bin/Release" -type f -name "*.deps.json" -delete
-        cp "LICENSE" "BeatSaverSharp/bin/Release/LICENSE.BeatSaverSharp.txt"
-    - name: Upload DLLs
-      uses: actions/upload-artifact@v1
-      with:
-        name: BeatSaverSharp-${{ github.sha }}
-        path: ./BeatSaverSharp/bin/Release
-  publish:
-    needs: build
-    if: contains(github.ref, 'refs/tags/')
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Setup MSBuild
-      uses: warrenbuckley/Setup-MSBuild@v1
     - name: Setup NuGet
       uses: warrenbuckley/Setup-Nuget@v1
     - name: Install dependencies
       run: msbuild -t:restore
     - name: Build project
       run: msbuild BeatSaverSharp/BeatSaverSharp.csproj /t:Build /p:Configuration=Release
+    - name: Prepare artifact
+      if: contains(github.ref, 'refs/tags/') == false
+      shell: bash
+      run: |
+        find "BeatSaverSharp/bin/Release" -type f ! -name "BeatSaverSharp.*" -delete
+        find "BeatSaverSharp/bin/Release" -type f -name "*.deps.json" -delete
+        cp "LICENSE" "BeatSaverSharp/bin/Release/LICENSE.BeatSaverSharp.txt"
+    - name: Upload DLLs
+      if: contains(github.ref, 'refs/tags/') == false
+      uses: actions/upload-artifact@v1
+      with:
+        name: BeatSaverSharp-${{ github.sha }}
+        path: ./BeatSaverSharp/bin/Release
     - name: Publish to NuGet
+      if: contains(github.ref, 'refs/tags/') == true
       run: nuget push -SkipDuplicate -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json BeatSaverSharp\bin\Release\**\*.nupkg
