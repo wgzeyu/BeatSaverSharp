@@ -18,15 +18,15 @@ jobs:
       if: contains(github.ref, 'refs/tags/') == false
       shell: bash
       run: |
-        find "BeatSaverSharp/bin/Release" -type f ! -name "BeatSaverSharp.*" -delete
-        find "BeatSaverSharp/bin/Release" -type f -name "*.deps.json" -delete
-        cp "LICENSE" "BeatSaverSharp/bin/Release/LICENSE.BeatSaverSharp.txt"
+        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f ! -name "BeatSaverSharp.*" -delete
+        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f -name "*.deps.json" -delete
+        cp "LICENSE" "BeatSaverSharp/bin/Release/netstandard2.0/LICENSE.BeatSaverSharp.txt"
     - name: Upload DLLs
       if: contains(github.ref, 'refs/tags/') == false
       uses: actions/upload-artifact@v1
       with:
         name: BeatSaverSharp-${{ github.sha }}
-        path: ./BeatSaverSharp/bin/Release
+        path: ./BeatSaverSharp/bin/Release/netstandard2.0
     - name: Publish to NuGet
       if: contains(github.ref, 'refs/tags/') == true
       run: nuget push -SkipDuplicate -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json BeatSaverSharp\bin\Release\**\*.nupkg
