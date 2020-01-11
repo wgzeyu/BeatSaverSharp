@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 
 # XML Doc
-BeatSaverSharp.xml
+BeatSaverSharp/BeatSaverSharp.xml

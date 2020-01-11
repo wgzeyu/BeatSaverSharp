@@ -19,11 +19,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Jack Baron\source\repos\BeatSaver\BeatSaverSharp\BeatSaverSharp.xml</DocumentationFile>
+    <DocumentationFile>.\BeatSaverSharp.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\Jack Baron\source\repos\BeatSaver\BeatSaverSharp\BeatSaverSharp.xml</DocumentationFile>
+    <DocumentationFile>.\BeatSaverSharp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
