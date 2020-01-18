@@ -1,35 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeSymbols>true</IncludeSymbols>
     <Version>1.1.0</Version>
     <Authors>lolPants</Authors>
     <Company>Jack Baron DEV</Company>
-    <Description>Official C# Library to interact with the BeatSaver API</Description>
+    <Description>Extensions for the official C# Library to interact with the BeatSaver API</Description>
     <Copyright>Copyright © Jack Baron DEV 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/lolPants/BeatSaverSharp.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/lolPants/BeatSaverSharp</PackageProjectUrl>
-    <PackageTags>beat saber beatsaver rest http json api</PackageTags>
+    <PackageTags>beat saber beatsaver rest http json api extensions</PackageTags>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>.\BeatSaverSharp.xml</DocumentationFile>
+    <DocumentationFile>.\BeatSaverSharp.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>.\BeatSaverSharp.xml</DocumentationFile>
+    <DocumentationFile>.\BeatSaverSharp.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
+    <ProjectReference Include="..\BeatSaverSharp\BeatSaverSharp.csproj" />
   </ItemGroup>
 
 </Project>
