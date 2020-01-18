@@ -6,27 +6,29 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Setup MSBuild
-      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
     - name: Setup NuGet
       uses: warrenbuckley/Setup-Nuget@v1
     - name: Install dependencies
-      run: msbuild -t:restore
-    - name: Build project
-      run: msbuild BeatSaverSharp/BeatSaverSharp.csproj /t:Build /p:Configuration=Release
+      run: dotnet restore
+    - name: Build solution
+      run: dotnet build -c release BeatSaverSharp.Extensions/BeatSaverSharp.Extensions.csproj
     - name: Prepare artifact
       if: contains(github.ref, 'refs/tags/') == false
       shell: bash
       run: |
-        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f ! -name "BeatSaverSharp.*" -delete
-        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f -name "*.deps.json" -delete
-        cp "LICENSE" "BeatSaverSharp/bin/Release/netstandard2.0/LICENSE.BeatSaverSharp.txt"
+        find "BeatSaverSharp.Extensions/bin/Release/netstandard2.1" -type f ! -name "BeatSaverSharp.*" -delete
+        find "BeatSaverSharp.Extensions/bin/Release/netstandard2.1" -type f -name "*.deps.json" -delete
+        cp "LICENSE" "BeatSaverSharp.Extensions/bin/Release/netstandard2.1/LICENSE.BeatSaverSharp.txt"
     - name: Upload DLLs
       if: contains(github.ref, 'refs/tags/') == false
       uses: actions/upload-artifact@v1
       with:
         name: BeatSaverSharp-${{ github.sha }}
-        path: ./BeatSaverSharp/bin/Release/netstandard2.0
+        path: ./BeatSaverSharp.Extensions/bin/Release/netstandard2.1
     - name: Publish to NuGet
       if: contains(github.ref, 'refs/tags/') == true
-      run: nuget push -SkipDuplicate -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json BeatSaverSharp\bin\Release\**\*.nupkg
+      run: nuget push -SkipDuplicate -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json **\*.nupkg
