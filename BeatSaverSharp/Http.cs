@@ -33,6 +33,38 @@ namespace BeatSaverSharp
         /// Optional HTTP Timeout Override
         /// </summary>
         public TimeSpan? Timeout { get; set; }
+
+        /// <summary>
+        /// Additional agents to list in User-Agent string
+        /// </summary>
+        public ApplicationAgent[] Agents { get; set; }
+    }
+
+    /// <summary>
+    /// Agent Information
+    /// </summary>
+    public struct ApplicationAgent
+    {
+        /// <summary>
+        /// Agent Name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Agent Version
+        /// </summary>
+        public Version Version { get; set; }
+
+        /// <summary>
+        /// Application Agent
+        /// </summary>
+        /// <param name="name">Agent Name</param>
+        /// <param name="version">Agent Version</param>
+        public ApplicationAgent(string name, Version version)
+        {
+            Name = name;
+            Version = version;
+        }
     }
 
     internal sealed class Http
@@ -67,6 +99,16 @@ namespace BeatSaverSharp
             if (options.ApplicationName != null)
             {
                 userAgent = $"{options.ApplicationName}/{options.Version.ToString()} {userAgent}";
+            }
+
+            foreach (var agent in options.Agents ?? new ApplicationAgent[0])
+            {
+                if (agent.Name == null || agent.Version == null)
+                {
+                    throw new ArgumentException("All application agents must specify both name and version");
+                }
+
+                userAgent += $" {agent.Name}/{agent.Version.ToString()}";
             }
 
             Client.DefaultRequestHeaders.Add("User-Agent", userAgent);
