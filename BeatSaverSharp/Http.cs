@@ -87,6 +87,7 @@ namespace BeatSaverSharp
             ApplicationName = null,
             Version = null,
             Timeout = TimeSpan.FromSeconds(30),
+            Agents = new ApplicationAgent[0],
         });
 
         internal HttpClient Client { get; private set; }
