@@ -48,12 +48,12 @@ namespace BeatSaverSharp
         /// <summary>
         /// Agent Name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Agent Version String
         /// </summary>
-        public string Version { get; set; }
+        public string Version { get; private set; }
 
         /// <summary>
         /// Application Agent
