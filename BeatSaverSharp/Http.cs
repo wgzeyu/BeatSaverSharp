@@ -51,9 +51,9 @@ namespace BeatSaverSharp
         public string Name { get; set; }
 
         /// <summary>
-        /// Agent Version
+        /// Agent Version String
         /// </summary>
-        public Version Version { get; set; }
+        public string Version { get; set; }
 
         /// <summary>
         /// Application Agent
@@ -61,6 +61,17 @@ namespace BeatSaverSharp
         /// <param name="name">Agent Name</param>
         /// <param name="version">Agent Version</param>
         public ApplicationAgent(string name, Version version)
+        {
+            Name = name;
+            Version = version.ToString();
+        }
+
+        /// <summary>
+        /// Application Agent
+        /// </summary>
+        /// <param name="name">Agent Name</param>
+        /// <param name="version">Agent Version String</param>
+        public ApplicationAgent(string name, string version)
         {
             Name = name;
             Version = version;
@@ -98,7 +109,7 @@ namespace BeatSaverSharp
 
             if (options.ApplicationName != null)
             {
-                userAgent = $"{options.ApplicationName}/{options.Version.ToString()} {userAgent}";
+                userAgent = $"{options.ApplicationName}/{options.Version} {userAgent}";
             }
 
             foreach (var agent in options.Agents ?? new ApplicationAgent[0])
