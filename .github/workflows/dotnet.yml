@@ -16,8 +16,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.100'
-    - name: Setup NuGet
-      uses: warrenbuckley/Setup-Nuget@v1
     - name: Install dependencies
       run: dotnet restore
     - name: Build solution
@@ -37,4 +35,4 @@ jobs:
         path: ./BeatSaverSharp.Extensions/bin/Release/netstandard2.1
     - name: Publish to NuGet
       if: contains(github.ref, 'refs/tags/') == true
-      run: nuget push -SkipDuplicate -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json **\*.nupkg
+      run: dotnet nuget push --skip-duplicate --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json **\*.nupkg
