@@ -4,6 +4,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+#if NETSTANDARD2_1
+using System.Collections.Generic;
+#endif
 
 namespace BeatSaverSharp
 {
@@ -270,6 +273,145 @@ namespace BeatSaverSharp
 
             return u;
         }
+        #endregion
+
+        #region Extensions
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Get an async iterator for beatmaps, ordered by Latest
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> LatestIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Latest(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, ordered by Heat
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> HotIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Hot(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, ordered by Rating
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> RatingIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Rating(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, ordered by Downloads
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> DownloadsIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Downloads(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, ordered by Plays
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> PlaysIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Plays(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, using a text search
+        /// </summary>
+        /// <param name="query">Text Query</param>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> SearchIterator(string query, uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Search(query, page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Get an async iterator for beatmaps, using an advanced search
+        /// </summary>
+        /// <param name="query">Lucene Query</param>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> SearchAdvancedIterator(string query, uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await SearchAdvanced(query, page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+#endif
         #endregion
     }
 }

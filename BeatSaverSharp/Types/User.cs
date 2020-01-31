@@ -2,6 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+#if NETSTANDARD2_1
+using System.Collections.Generic;
+#endif
 
 namespace BeatSaverSharp
 {
@@ -106,6 +109,29 @@ namespace BeatSaverSharp
         {
             return !(lhs == rhs);
         }
+        #endregion
+
+        #region Extensions
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Get an async iterator for beatmaps from this user
+        /// </summary>
+        /// <param name="page">Optional page index (defaults to 0)</param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<Beatmap> BeatmapsIterator(uint page = 0)
+        {
+            while (true)
+            {
+                var hot = await Beatmaps(page);
+                foreach (var map in hot.Docs)
+                {
+                    yield return map;
+                }
+
+                if (hot.NextPage == null) yield break;
+            }
+        }
+#endif
         #endregion
     }
 }
