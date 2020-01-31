@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -11,44 +11,44 @@ namespace BeatSaverSharp
         /// <summary>
         /// </summary>
         [JsonProperty("songName")]
-        public string SongName { get; set; }
+        public string SongName { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("songSubName")]
-        public string SongSubName { get; set; }
+        public string SongSubName { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("songAuthorName")]
-        public string SongAuthorName { get; set; }
+        public string SongAuthorName { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("levelAuthorName")]
-        public string LevelAuthorName { get; set; }
+        public string LevelAuthorName { get; private set; }
 
         /// <summary>
         /// Duration of the Audio File (in seconds)
         /// </summary>
         [JsonProperty("duration")]
-        public int Duration { get; set; }
+        public int Duration { get; private set; }
 
         /// <summary>
         /// Beats per Minute
         /// </summary>
         [JsonProperty("bpm")]
-        public float BPM { get; set; }
+        public float BPM { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("difficulties")]
-        public Difficulties Difficulties { get; set; }
+        public Difficulties Difficulties { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("characteristics")]
-        public List<BeatmapCharacteristic> Characteristics { get; set; }
+        public ReadOnlyCollection<BeatmapCharacteristic> Characteristics { get; private set; }
     }
 
     /// <summary>
@@ -59,27 +59,27 @@ namespace BeatSaverSharp
         /// <summary>
         /// </summary>
         [JsonProperty("easy")]
-        public bool Easy { get; set; }
+        public bool Easy { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("normal")]
-        public bool Normal { get; set; }
+        public bool Normal { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("hard")]
-        public bool Hard { get; set; }
+        public bool Hard { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("expert")]
-        public bool Expert { get; set; }
+        public bool Expert { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("expertPlus")]
-        public bool ExpertPlus { get; set; }
+        public bool ExpertPlus { get; private set; }
     }
 
     /// <summary>
@@ -89,12 +89,12 @@ namespace BeatSaverSharp
         /// <summary>
         /// </summary>
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("difficulties")]
-        public Dictionary<string, BeatmapCharacteristicDifficulty?> Difficulties { get; set; }
+        public ReadOnlyDictionary<string, BeatmapCharacteristicDifficulty?> Difficulties { get; private set; }
     }
 
     /// <summary>
@@ -105,41 +105,41 @@ namespace BeatSaverSharp
         /// Length of the beatmap (in beats)
         /// </summary>
         [JsonProperty("duration")]
-        public float Duration { get; set; }
+        public float Duration { get; private set; }
 
         /// <summary>
         /// Length of the beatmap (in seconds)
         /// </summary>
         [JsonProperty("length")]
-        public int Length { get; set; }
+        public int Length { get; private set; }
 
         /// <summary>
         /// Bomb Count
         /// </summary>
         [JsonProperty("bombs")]
-        public int Bombs { get; set; }
+        public int Bombs { get; private set; }
 
         /// <summary>
         /// Note Count
         /// </summary>
         [JsonProperty("notes")]
-        public int Notes { get; set; }
+        public int Notes { get; private set; }
 
         /// <summary>
         /// Obstacle Count
         /// </summary>
         [JsonProperty("obstacles")]
-        public int Obstacles { get; set; }
+        public int Obstacles { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("njs")]
-        public float NoteJumpSpeed { get; set; }
+        public float NoteJumpSpeed { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("njsOffset")]
-        public float NoteJumpSpeedOffset { get; set; }
+        public float NoteJumpSpeedOffset { get; private set; }
     }
 
     /// <summary>
@@ -149,31 +149,31 @@ namespace BeatSaverSharp
         /// <summary>
         /// </summary>
         [JsonProperty("downloads")]
-        public int Downloads { get; set; }
+        public int Downloads { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("plays")]
-        public int Plays { get; set; }
+        public int Plays { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("upVotes")]
-        public int UpVotes { get; set; }
+        public int UpVotes { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("downVotes")]
-        public int DownVotes { get; set; }
+        public int DownVotes { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("rating")]
-        public float Rating { get; set; }
+        public float Rating { get; private set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("heat")]
-        public float Heat { get; set; }
+        public float Heat { get; private set; }
     }
 }

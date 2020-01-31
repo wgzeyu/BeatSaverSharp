@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -17,31 +16,31 @@ namespace BeatSaverSharp
         /// Documents on this page
         /// </summary>
         [JsonProperty("docs")]
-        public List<Beatmap> Docs { get; set; }
+        public ReadOnlyCollection<Beatmap> Docs { get; private set; }
 
         /// <summary>
         /// Total number of documents for the specified endpoint
         /// </summary>
         [JsonProperty("totalDocs")]
-        public int TotalDocs { get; set; }
+        public int TotalDocs { get; private set; }
 
         /// <summary>
         /// Index of the Last Page
         /// </summary>
         [JsonProperty("lastPage")]
-        public int LastPage { get; set; }
+        public int LastPage { get; private set; }
 
         /// <summary>
         /// Index of the Previous Page
         /// </summary>
         [JsonProperty("prevPage")]
-        public int? PreviousPage { get; set; }
+        public int? PreviousPage { get; private set; }
 
         /// <summary>
         /// Index of the Next Page
         /// </summary>
         [JsonProperty("nextPage")]
-        public int? NextPage { get; set; }
+        public int? NextPage { get; private set; }
         #endregion
 
         #region Properties

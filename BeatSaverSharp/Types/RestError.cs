@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -12,12 +12,12 @@ namespace BeatSaverSharp
         /// Error Code
         /// </summary>
         [JsonProperty("code")]
-        public int Code { get; set; }
+        public int Code { get; private set; }
 
         /// <summary>
         /// Error Identifier
         /// </summary>
         [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+        public string Identifier { get; private set; }
     }
 }
