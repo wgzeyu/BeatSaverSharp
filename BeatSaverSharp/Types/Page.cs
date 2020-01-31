@@ -72,7 +72,7 @@ namespace BeatSaverSharp
             if (PreviousPage == null) return null;
 
             string url = $"{PageURI}/{PreviousPage}";
-            if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
+            if (Query != null) url += $"?q={Uri.EscapeUriString(Query)}";
             Page p = await Client.FetchPaged(url, token, progress);
 
             p.PageURI = PageURI;
@@ -98,7 +98,7 @@ namespace BeatSaverSharp
             if (NextPage == null) return null;
 
             string url = $"{PageURI}/{NextPage}";
-            if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
+            if (Query != null) url += $"?q={Uri.EscapeUriString(Query)}";
             Page p = await Client.FetchPaged(url, token, progress);
 
             p.PageURI = PageURI;

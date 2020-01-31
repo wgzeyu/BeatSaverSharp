@@ -84,7 +84,7 @@ namespace BeatSaverSharp
         {
             if (query == null) throw new ArgumentNullException(nameof(query), "Query string cannot be null");
 
-            string encoded = HttpUtility.UrlEncode(query);
+            string encoded = Uri.EscapeUriString(query);
             string pageURI = $"search/{searchType}";
 
             string url = $"{pageURI}/{page}?q={encoded}";
