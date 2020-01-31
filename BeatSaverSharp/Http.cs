@@ -136,35 +136,34 @@ namespace BeatSaverSharp
 
             if (token.IsCancellationRequested) throw new TaskCanceledException();
 
-            using (MemoryStream ms = new MemoryStream())
-            using (Stream s = await resp.Content.ReadAsStreamAsync())
+            using MemoryStream ms = new MemoryStream();
+            using Stream s = await resp.Content.ReadAsStreamAsync();
+
+            byte[] buffer = new byte[1 << 13];
+            int bytesRead;
+
+            long? contentLength = resp.Content.Headers.ContentLength;
+            long totalRead = 0;
+            progress?.Report(0);
+
+            while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length)) > 0)
             {
-                byte[] buffer = new byte[1 << 13];
-                int bytesRead;
+                if (token.IsCancellationRequested) throw new TaskCanceledException();
 
-                long? contentLength = resp.Content.Headers.ContentLength;
-                long totalRead = 0;
-                progress?.Report(0);
-
-                while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                if (contentLength != null)
                 {
-                    if (token.IsCancellationRequested) throw new TaskCanceledException();
-
-                    if (contentLength != null)
-                    {
-                        double prog = (double)totalRead / (double)contentLength;
-                        progress?.Report(prog);
-                    }
-
-                    await ms.WriteAsync(buffer, 0, bytesRead);
-                    totalRead += bytesRead;
+                    double prog = (double)totalRead / (double)contentLength;
+                    progress?.Report(prog);
                 }
 
-                progress?.Report(1);
-                byte[] bytes = ms.ToArray();
-
-                return new HttpResponse(resp, bytes);
+                await ms.WriteAsync(buffer, 0, bytesRead);
+                totalRead += bytesRead;
             }
+
+            progress?.Report(1);
+            byte[] bytes = ms.ToArray();
+
+            return new HttpResponse(resp, bytes);
         }
     }
 
@@ -277,11 +276,10 @@ namespace BeatSaverSharp
         {
             string body = String();
 
-            using (StringReader sr = new StringReader(body))
-            using (JsonTextReader reader = new JsonTextReader(sr))
-            {
-                return Http.Serializer.Deserialize<T>(reader);
-            }
+            using StringReader sr = new StringReader(body);
+            using JsonTextReader reader = new JsonTextReader(sr);
+
+            return Http.Serializer.Deserialize<T>(reader);
         }
     }
 }

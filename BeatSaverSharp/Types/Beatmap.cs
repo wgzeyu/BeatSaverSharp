@@ -241,15 +241,14 @@ namespace BeatSaverSharp
             var resp = await Client.HttpClient.PostAsync($"vote/steam/{Key}", content);
             if (resp.IsSuccessStatusCode)
             {
-                using (Stream s = await resp.Content.ReadAsStreamAsync())
-                using (StreamReader sr = new StreamReader(s))
-                using (JsonReader reader = new JsonTextReader(sr))
-                {
-                    Beatmap updated = Http.Serializer.Deserialize<Beatmap>(reader);
-                    Stats = updated.Stats;
+                using Stream s = await resp.Content.ReadAsStreamAsync();
+                using StreamReader sr = new StreamReader(s);
+                using JsonReader reader = new JsonTextReader(sr);
 
-                    return true;
-                }
+                Beatmap updated = Http.Serializer.Deserialize<Beatmap>(reader);
+                Stats = updated.Stats;
+
+                return true;
             }
 
             RestError error;
