@@ -24,7 +24,5 @@ HttpOptions options = new HttpOptions()
 BeatSaver beatsaver = new BeatSaver(options);
 ```
 
-## 🚀 Extensions
-An extensions package is available on [NuGet](https://www.nuget.org/packages/BeatSaverSharp.Extensions/) and in CI builds. This contains extension methods that enable the use of `IAsyncEnumerable<Beatmap>` for all methods that return a `Task<Page>`.
-
-Since `IAsyncEnumerable<T>` is only available in .NET Standard 2.1 and .NET Core 3.x, these extensions are only available for those runtimes.
+## 🚀 Async Enumerable Extensions
+This project also targets .NET Standard 2.1. In addition to some compiler optimisations, this contains extra methods that enable the use of `IAsyncEnumerable<Beatmap>` for all methods that return a `Task<Page>`. If you are using a supported runtime, you can grab this DLL from GitHub Actions CI or directly using the NuGet Package.
