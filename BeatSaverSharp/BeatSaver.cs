@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 #if NETSTANDARD2_1
 using System.Collections.Generic;
 #endif

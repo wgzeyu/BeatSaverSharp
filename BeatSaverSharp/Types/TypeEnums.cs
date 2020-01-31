@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace BeatSaverSharp
 {
     internal static class PageType
