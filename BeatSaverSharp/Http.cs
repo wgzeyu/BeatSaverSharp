@@ -99,7 +99,12 @@ namespace BeatSaverSharp
                 throw new ArgumentException("You must specify either both or none of ApplicationName and Version");
             }
 
-            Client = new HttpClient()
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            };
+
+            Client = new HttpClient(handler)
             {
                 BaseAddress = new Uri($"{BeatSaver.BaseURL}/api/"),
                 Timeout = options.Timeout ?? TimeSpan.FromSeconds(30),
