@@ -59,7 +59,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> FetchPreviousPage(IProgress<double> progress = null) => await FetchPreviousPage(CancellationToken.None, progress);
+        public async Task<Page> FetchPreviousPage(IProgress<double> progress = null) => await FetchPreviousPage(CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch the previous page in this sequence
         /// </summary>
@@ -72,7 +72,7 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{PreviousPage}";
             if (Query != null) url += $"?q={Uri.EscapeUriString(Query)}";
-            Page p = await Client.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress).ConfigureAwait(false);
 
             p.PageURI = PageURI;
             p.Query = Query;
@@ -85,7 +85,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> FetchNextPage(IProgress<double> progress = null) => await FetchNextPage(CancellationToken.None, progress);
+        public async Task<Page> FetchNextPage(IProgress<double> progress = null) => await FetchNextPage(CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch the next page in this sequence
         /// </summary>
@@ -98,7 +98,7 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{NextPage}";
             if (Query != null) url += $"?q={Uri.EscapeUriString(Query)}";
-            Page p = await Client.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress).ConfigureAwait(false);
 
             p.PageURI = PageURI;
 

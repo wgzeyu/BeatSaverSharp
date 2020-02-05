@@ -142,7 +142,7 @@ namespace BeatSaverSharp
             if (token.IsCancellationRequested) throw new TaskCanceledException();
 
             using MemoryStream ms = new MemoryStream();
-            using Stream s = await resp.Content.ReadAsStreamAsync();
+            using Stream s = await resp.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
             byte[] buffer = new byte[1 << 13];
             int bytesRead;
@@ -151,7 +151,7 @@ namespace BeatSaverSharp
             long totalRead = 0;
             progress?.Report(0);
 
-            while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
             {
                 if (token.IsCancellationRequested) throw new TaskCanceledException();
 
@@ -161,7 +161,7 @@ namespace BeatSaverSharp
                     progress?.Report(prog);
                 }
 
-                await ms.WriteAsync(buffer, 0, bytesRead);
+                await ms.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
                 totalRead += bytesRead;
             }
 

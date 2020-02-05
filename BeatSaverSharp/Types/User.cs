@@ -37,7 +37,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
-        public async Task<Page> Beatmaps(uint page = 0, IProgress<double> progress = null) => await Beatmaps(page, CancellationToken.None, progress);
+        public async Task<Page> Beatmaps(uint page = 0, IProgress<double> progress = null) => await Beatmaps(page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch all Beatmaps uploaded by this user
         /// </summary>
@@ -50,7 +50,7 @@ namespace BeatSaverSharp
             string pageURI = $"maps/{PageType.Uploader}/{ID}";
             string url = $"{pageURI}/{page}";
 
-            Page p = await Client.FetchPaged(url, token, progress);
+            Page p = await Client.FetchPaged(url, token, progress).ConfigureAwait(false);
             p.PageURI = pageURI;
 
             return p;
@@ -122,7 +122,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Beatmaps(page);
+                var hot = await Beatmaps(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;

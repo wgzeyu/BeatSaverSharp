@@ -76,7 +76,7 @@ namespace BeatSaverSharp
 
         internal async Task<Page> FetchMapsPage(string type, uint page, CancellationToken token, IProgress<double> progress = null)
         {
-            Page p = await FetchPaged($"maps/{type}/{page}", token, progress);
+            Page p = await FetchPaged($"maps/{type}/{page}", token, progress).ConfigureAwait(false);
             p.PageURI = $"maps/{type}";
 
             return p;
@@ -93,7 +93,7 @@ namespace BeatSaverSharp
             string pageURI = $"search/{searchType}";
 
             string url = $"{pageURI}/{page}?q={encoded}";
-            Page p = await FetchPaged(url, token, progress);
+            Page p = await FetchPaged(url, token, progress).ConfigureAwait(false);
 
             p.Query = query;
             p.PageURI = pageURI;
@@ -109,7 +109,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Latest(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, CancellationToken.None, progress);
+        public async Task<Page> Latest(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of Latest beatmaps
         /// </summary>
@@ -117,7 +117,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Latest(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, token, progress);
+        public async Task<Page> Latest(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of Hot beatmaps
@@ -125,7 +125,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Hot(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, CancellationToken.None, progress);
+        public async Task<Page> Hot(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of Hot beatmaps
         /// </summary>
@@ -133,7 +133,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Hot(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, token, progress);
+        public async Task<Page> Hot(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their Rating
@@ -141,7 +141,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Rating(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, CancellationToken.None, progress);
+        public async Task<Page> Rating(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their Rating
         /// </summary>
@@ -149,7 +149,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Rating(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, token, progress);
+        public async Task<Page> Rating(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their download count
@@ -157,7 +157,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Downloads(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, CancellationToken.None, progress);
+        public async Task<Page> Downloads(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their download count
         /// </summary>
@@ -165,7 +165,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Downloads(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, token, progress);
+        public async Task<Page> Downloads(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their play count
@@ -173,7 +173,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Plays(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, CancellationToken.None, progress);
+        public async Task<Page> Plays(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their play count
         /// </summary>
@@ -181,7 +181,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Plays(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, token, progress);
+        public async Task<Page> Plays(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a Beatmap by Key
@@ -196,7 +196,7 @@ namespace BeatSaverSharp
                 throw new ArgumentNullException(nameof(key));
             }
 
-            return await FetchSingle($"maps/{SingleType.Key}/{key}", CancellationToken.None, progress);
+            return await FetchSingle($"maps/{SingleType.Key}/{key}", CancellationToken.None, progress).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace BeatSaverSharp
                 throw new ArgumentNullException(nameof(key));
             }
 
-            return await FetchSingle($"maps/{SingleType.Key}/{key}", token, progress);
+            return await FetchSingle($"maps/{SingleType.Key}/{key}", token, progress).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace BeatSaverSharp
                 throw new ArgumentNullException(nameof(hash));
             }
 
-            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", CancellationToken.None, progress);
+            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", CancellationToken.None, progress).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace BeatSaverSharp
                 throw new ArgumentNullException(nameof(hash));
             }
 
-            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", token, progress);
+            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", token, progress).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Search(string query, uint page = 0, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Text, query, page, CancellationToken.None, progress);
+        public async Task<Page> Search(string query, uint page = 0, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Text, query, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Text Search
         /// </summary>
@@ -265,7 +265,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> Search(string query, uint page, CancellationToken token, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Text, query, page, token, progress);
+        public async Task<Page> Search(string query, uint page, CancellationToken token, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Text, query, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Advanced Lucene Search
@@ -274,7 +274,7 @@ namespace BeatSaverSharp
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> SearchAdvanced(string query, uint page = 0, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Advanced, query, page, CancellationToken.None, progress);
+        public async Task<Page> SearchAdvanced(string query, uint page = 0, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Advanced, query, page, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Advanced Lucene Search
         /// </summary>
@@ -283,7 +283,7 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Page> SearchAdvanced(string query, uint page, CancellationToken token, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Advanced, query, page, token, progress);
+        public async Task<Page> SearchAdvanced(string query, uint page, CancellationToken token, IProgress<double> progress = null) => await FetchSearchPage(SearchType.Advanced, query, page, token, progress).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a User by ID
@@ -291,7 +291,7 @@ namespace BeatSaverSharp
         /// <param name="id">User ID</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<User> User(string id, IProgress<double> progress = null) => await User(id, CancellationToken.None, progress);
+        public async Task<User> User(string id, IProgress<double> progress = null) => await User(id, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch a User by ID
         /// </summary>
@@ -327,7 +327,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Latest(page);
+                var hot = await Latest(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -346,7 +346,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Hot(page);
+                var hot = await Hot(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -365,7 +365,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Rating(page);
+                var hot = await Rating(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -384,7 +384,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Downloads(page);
+                var hot = await Downloads(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -403,7 +403,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Plays(page);
+                var hot = await Plays(page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -423,7 +423,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await Search(query, page);
+                var hot = await Search(query, page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;
@@ -443,7 +443,7 @@ namespace BeatSaverSharp
         {
             while (true)
             {
-                var hot = await SearchAdvanced(query, page);
+                var hot = await SearchAdvanced(query, page).ConfigureAwait(false);
                 foreach (var map in hot.Docs)
                 {
                     yield return map;

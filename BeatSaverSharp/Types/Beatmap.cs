@@ -149,7 +149,7 @@ namespace BeatSaverSharp
 
             if (Partial == false) return;
 
-            Beatmap map = Hash != null ? await Client.Hash(Hash) : await Client.Key(Key);
+            Beatmap map = Hash != null ? await Client.Hash(Hash).ConfigureAwait(false) : await Client.Key(Key).ConfigureAwait(false);
             if (map == null)
             {
                 if (Hash != null) throw new InvalidPartialHashException(Hash);
@@ -179,7 +179,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task Refresh()
         {
-            Beatmap b = await Client.Hash(Hash);
+            Beatmap b = await Client.Hash(Hash).ConfigureAwait(false);
 
             Name = b.Name;
             Description = b.Description;
@@ -192,7 +192,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task RefreshStats()
         {
-            Beatmap b = await Client.Hash(Hash);
+            Beatmap b = await Client.Hash(Hash).ConfigureAwait(false);
             Stats = b.Stats;
         }
 
@@ -231,13 +231,13 @@ namespace BeatSaverSharp
         private async Task<bool> Vote(VoteDirection direction, string steamID, byte[] authTicket)
         {
             VotePayload payload = new VotePayload(direction, steamID, authTicket);
-            return await Vote(payload);
+            return await Vote(payload).ConfigureAwait(false);
         }
 
         private async Task<bool> Vote(VoteDirection direction, string steamID, string authTicket)
         {
             VotePayload payload = new VotePayload(direction, steamID, authTicket);
-            return await Vote(payload);
+            return await Vote(payload).ConfigureAwait(false);
         }
 
         private async Task<bool> Vote(VotePayload payload)
@@ -245,10 +245,10 @@ namespace BeatSaverSharp
             string json = JsonConvert.SerializeObject(payload);
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var resp = await Client.HttpClient.PostAsync($"vote/steam/{Key}", content);
+            var resp = await Client.HttpClient.PostAsync($"vote/steam/{Key}", content).ConfigureAwait(false);
             if (resp.IsSuccessStatusCode)
             {
-                using Stream s = await resp.Content.ReadAsStreamAsync();
+                using Stream s = await resp.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 using StreamReader sr = new StreamReader(s);
                 using JsonReader reader = new JsonTextReader(sr);
 
@@ -259,7 +259,7 @@ namespace BeatSaverSharp
             }
 
             RestError error;
-            using (Stream s = await resp.Content.ReadAsStreamAsync())
+            using (Stream s = await resp.Content.ReadAsStreamAsync().ConfigureAwait(false))
             using (StreamReader sr = new StreamReader(s))
             using (JsonReader reader = new JsonTextReader(sr))
             {
@@ -280,14 +280,14 @@ namespace BeatSaverSharp
         /// <param name="steamID">Steam ID to submit as</param>
         /// <param name="authTicket">Steam Authentication Ticket</param>
         /// <returns></returns>
-        public async Task<bool> VoteUp(string steamID, byte[] authTicket) => await Vote(VoteDirection.Up, steamID, authTicket);
+        public async Task<bool> VoteUp(string steamID, byte[] authTicket) => await Vote(VoteDirection.Up, steamID, authTicket).ConfigureAwait(false);
         /// <summary>
         /// Submit an Upvote for this Beatmap
         /// </summary>
         /// <param name="steamID">Steam ID to submit as</param>
         /// <param name="authTicket">Steam Authentication Ticket (Hex String)</param>
         /// <returns></returns>
-        public async Task<bool> VoteUp(string steamID, string authTicket) => await Vote(VoteDirection.Up, steamID, authTicket);
+        public async Task<bool> VoteUp(string steamID, string authTicket) => await Vote(VoteDirection.Up, steamID, authTicket).ConfigureAwait(false);
 
         /// <summary>
         /// Submit a Downvote for this Beatmap
@@ -295,14 +295,14 @@ namespace BeatSaverSharp
         /// <param name="steamID">Steam ID to submit as</param>
         /// <param name="authTicket">Steam Authentication Ticket</param>
         /// <returns></returns>
-        public async Task<bool> VoteDown(string steamID, byte[] authTicket) => await Vote(VoteDirection.Down, steamID, authTicket);
+        public async Task<bool> VoteDown(string steamID, byte[] authTicket) => await Vote(VoteDirection.Down, steamID, authTicket).ConfigureAwait(false);
         /// <summary>
         /// Submit a Downvote for this Beatmap
         /// </summary>
         /// <param name="steamID">Steam ID to submit as</param>
         /// <param name="authTicket">Steam Authentication Ticket (Hex String)</param>
         /// <returns></returns>
-        public async Task<bool> VoteDown(string steamID, string authTicket) => await Vote(VoteDirection.Down, steamID, authTicket);
+        public async Task<bool> VoteDown(string steamID, string authTicket) => await Vote(VoteDirection.Down, steamID, authTicket).ConfigureAwait(false);
 
         /// <summary>
         /// Download the Beatmap Zip as a byte array
@@ -310,7 +310,7 @@ namespace BeatSaverSharp
         /// <param name="direct">If true, will skip counting the download request</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<byte[]> DownloadZip(bool direct = false, IProgress<double> progress = null) => await DownloadZip(direct, CancellationToken.None, progress);
+        public async Task<byte[]> DownloadZip(bool direct = false, IProgress<double> progress = null) => await DownloadZip(direct, CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Download the Beatmap Zip as a byte array
         /// </summary>
@@ -331,7 +331,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<byte[]> FetchCoverImage(IProgress<double> progress = null) => await FetchCoverImage(CancellationToken.None, progress);
+        public async Task<byte[]> FetchCoverImage(IProgress<double> progress = null) => await FetchCoverImage(CancellationToken.None, progress).ConfigureAwait(false);
         /// <summary>
         /// Fetch the Beatmap's Cover Image as a byte array
         /// </summary>
