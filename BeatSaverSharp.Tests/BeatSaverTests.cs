@@ -234,8 +234,10 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task NullKey()
         {
-            var map = await Client.Key(null);
-            Assert.IsNull(map);
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                var map = await Client.Key(null);
+            });
         }
         #endregion
 
@@ -257,8 +259,10 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task NullHash()
         {
-            var map = await Client.Hash(null);
-            Assert.IsNull(map);
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                var map = await Client.Hash(null);
+            });
         }
         #endregion
         #endregion
