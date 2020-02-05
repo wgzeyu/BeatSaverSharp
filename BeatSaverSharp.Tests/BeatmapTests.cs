@@ -58,6 +58,36 @@ namespace BeatSaverSharp.Tests
         }
         #endregion
 
+        #region Method Tests
+        [TestMethod]
+        public async Task Refresh()
+        {
+            var map = await Client.Key("28a");
+            await map.Refresh();
+        }
+
+        [TestMethod]
+        public async Task RefreshStats()
+        {
+            var map = await Client.Key("28a");
+            await map.RefreshStats();
+        }
+
+        [TestMethod]
+        public async Task DownloadZip()
+        {
+            var map = await Client.Key("28a");
+            _ = await map.DownloadZip();
+        }
+
+        [TestMethod]
+        public async Task FetchCoverImage()
+        {
+            var map = await Client.Key("28a");
+            _ = await map.FetchCoverImage();
+        }
+        #endregion
+
         #region Equality Tests
         [TestMethod]
         public async Task BeatmapEquality()
