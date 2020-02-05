@@ -88,14 +88,15 @@ namespace BeatSaverSharp.Tests
         {
             int updates = 0;
             double prog = 0;
-            Progress<double> progress = new Progress<double>(p =>
+            Progress<double> progress = new Progress<double>();
+            progress.ProgressChanged += (_, p) =>
             {
                 updates += 1;
-                prog = p;
+                if (p > prog) prog = p;
 
                 Assert.IsTrue(p >= 0);
                 Assert.IsTrue(p <= 1);
-            });
+            };
 
             var map = await Client.Key("4c19", progress: progress);
             CheckOvercooked(map);
