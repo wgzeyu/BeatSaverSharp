@@ -84,7 +84,10 @@ namespace BeatSaverSharp
 
         internal async Task<Page> FetchSearchPage(string searchType, string query, uint page, CancellationToken token, IProgress<double> progress = null)
         {
-            if (query == null) throw new ArgumentNullException(nameof(query), "Query string cannot be null");
+            if (query == null)
+            {
+                throw new ArgumentNullException(nameof(query), "Query string cannot be null");
+            }
 
             string encoded = Uri.EscapeUriString(query);
             string pageURI = $"search/{searchType}";
@@ -186,7 +189,16 @@ namespace BeatSaverSharp
         /// <param name="key">Hex Key</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Beatmap> Key(string key, IProgress<double> progress = null) => await FetchSingle($"maps/{SingleType.Key}/{key}", CancellationToken.None, progress);
+        public async Task<Beatmap> Key(string key, IProgress<double> progress = null)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            return await FetchSingle($"maps/{SingleType.Key}/{key}", CancellationToken.None, progress);
+        }
+
         /// <summary>
         /// Fetch a Beatmap by Key
         /// </summary>
@@ -194,7 +206,15 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Beatmap> Key(string key, CancellationToken token, IProgress<double> progress = null) => await FetchSingle($"maps/{SingleType.Key}/{key}", token, progress);
+        public async Task<Beatmap> Key(string key, CancellationToken token, IProgress<double> progress = null)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            return await FetchSingle($"maps/{SingleType.Key}/{key}", token, progress);
+        }
 
         /// <summary>
         /// Fetch a Beatmap by Hash
@@ -202,7 +222,16 @@ namespace BeatSaverSharp
         /// <param name="hash">SHA1 Hash</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Beatmap> Hash(string hash, IProgress<double> progress = null) => await FetchSingle($"maps/{SingleType.Hash}/{hash}", CancellationToken.None, progress);
+        public async Task<Beatmap> Hash(string hash, IProgress<double> progress = null)
+        {
+            if (hash == null)
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
+
+            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", CancellationToken.None, progress);
+        }
+
         /// <summary>
         /// Fetch a Beatmap by Hash
         /// </summary>
@@ -210,7 +239,15 @@ namespace BeatSaverSharp
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
         /// <returns></returns>
-        public async Task<Beatmap> Hash(string hash, CancellationToken token, IProgress<double> progress = null) => await FetchSingle($"maps/{SingleType.Hash}/{hash}", token, progress);
+        public async Task<Beatmap> Hash(string hash, CancellationToken token, IProgress<double> progress = null)
+        {
+            if (hash == null)
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
+
+            return await FetchSingle($"maps/{SingleType.Hash}/{hash}", token, progress);
+        }
 
         /// <summary>
         /// Text Search
@@ -264,6 +301,11 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task<User> User(string id, CancellationToken token, IProgress<double> progress = null)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             var resp = await HttpInstance.GetAsync($"users/find/{id}", token, progress).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
 
