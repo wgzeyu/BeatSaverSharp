@@ -86,23 +86,21 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task WithProgress()
         {
+            var map = await Client.Key("4c19");
+            Assert.IsNotNull(map);
+
             int updates = 0;
-            double prog = 0;
             Progress<double> progress = new Progress<double>();
             progress.ProgressChanged += (_, p) =>
             {
                 updates += 1;
-                if (p > prog) prog = p;
 
                 Assert.IsTrue(p >= 0);
                 Assert.IsTrue(p <= 1);
             };
 
-            var map = await Client.Key("4c19", progress: progress);
-            CheckOvercooked(map);
-
-            Assert.IsTrue(updates > 0);
-            Assert.IsTrue(prog == 1);
+            await Task.Run(() => map.FetchCoverImage(progress: progress));
+            Assert.IsTrue(updates > 0, $"Updates: {updates}");
         }
         #endregion
 
