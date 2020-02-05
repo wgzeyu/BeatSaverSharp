@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static BeatSaverSharp.Tests.Utils;
@@ -44,6 +45,63 @@ namespace BeatSaverSharp.Tests
             {
                 _ = new BeatSaver(options);
             });
+        }
+        #endregion
+
+        #region Internal Method Tests
+        [TestMethod]
+        public async Task WithCancellationToken()
+        {
+            using CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+
+            var map = await Client.Key("4c19", token);
+            CheckOvercooked(map);
+        }
+
+        [TestMethod]
+        public async Task WithCancellationTokenCancelled()
+        {
+            using CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+            cts.Cancel();
+
+            Beatmap map = null;
+            try
+            {
+                map = await Client.Key("4c19", token: token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Pass
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Assert.IsNull(map);
+        }
+
+        [TestMethod]
+        public async Task WithProgress()
+        {
+            int updates = 0;
+            double prog = 0;
+            Progress<double> progress = new Progress<double>(p =>
+            {
+                updates += 1;
+                prog = p;
+
+                Assert.IsTrue(p >= 0);
+                Assert.IsTrue(p <= 1);
+            });
+
+            var map = await Client.Key("4c19", progress: progress);
+            CheckOvercooked(map);
+
+            Assert.IsTrue(updates > 0);
+            Assert.IsTrue(prog == 1);
         }
         #endregion
 
