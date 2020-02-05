@@ -106,6 +106,116 @@ namespace BeatSaverSharp.Tests
         #endregion
 
         #region Method Tests
+        #region Latest
+        [TestMethod]
+        public async Task ValidLatestOrder()
+        {
+            var maps = await Client.Latest();
+            Assert.IsNotNull(maps);
+
+            DateTime? previous = null;
+            foreach (var map in maps.Docs)
+            {
+                if (previous == null)
+                {
+                    previous = map.Uploaded;
+                    continue;
+                }
+
+                Assert.IsTrue(map.Uploaded < previous);
+                previous = map.Uploaded;
+            }
+        }
+        #endregion
+
+        #region Hot
+        [TestMethod]
+        public async Task ValidHotOrder()
+        {
+            var maps = await Client.Hot();
+            Assert.IsNotNull(maps);
+
+            float? previous = null;
+            foreach (var map in maps.Docs)
+            {
+                if (previous == null)
+                {
+                    previous = map.Stats.Heat;
+                    continue;
+                }
+
+                Assert.IsTrue(map.Stats.Heat < previous);
+                previous = map.Stats.Heat;
+            }
+        }
+        #endregion
+
+        #region Rating
+        [TestMethod]
+        public async Task ValidRatingOrder()
+        {
+            var maps = await Client.Rating();
+            Assert.IsNotNull(maps);
+
+            float? previous = null;
+            foreach (var map in maps.Docs)
+            {
+                if (previous == null)
+                {
+                    previous = map.Stats.Rating;
+                    continue;
+                }
+
+                Assert.IsTrue(map.Stats.Rating < previous);
+                previous = map.Stats.Rating;
+            }
+        }
+        #endregion
+
+        #region Downloads
+        [TestMethod]
+        public async Task ValidDownloadsOrder()
+        {
+            var maps = await Client.Downloads();
+            Assert.IsNotNull(maps);
+
+            int? previous = null;
+            foreach (var map in maps.Docs)
+            {
+                if (previous == null)
+                {
+                    previous = map.Stats.Downloads;
+                    continue;
+                }
+
+                Assert.IsTrue(map.Stats.Downloads < previous);
+                previous = map.Stats.Downloads;
+            }
+        }
+        #endregion
+
+        #region Plays
+        [TestMethod]
+        public async Task ValidPlaysOrder()
+        {
+            var maps = await Client.Plays();
+            Assert.IsNotNull(maps);
+
+            int? previous = null;
+            foreach (var map in maps.Docs)
+            {
+                if (previous == null)
+                {
+                    previous = map.Stats.Plays;
+                    continue;
+                }
+
+                Assert.IsTrue(map.Stats.Plays < previous);
+                previous = map.Stats.Plays;
+            }
+        }
+        #endregion
+
         #region Key
         [TestMethod]
         public async Task ValidKey()
