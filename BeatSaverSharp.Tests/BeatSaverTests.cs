@@ -266,6 +266,74 @@ namespace BeatSaverSharp.Tests
             });
         }
         #endregion
+
+        #region Search
+        [TestMethod]
+        public async Task ValidSearch()
+        {
+            var maps = await Client.Search("overcooked");
+            Assert.IsTrue(maps.TotalDocs > 0);
+            Assert.IsTrue(maps.Docs.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task NullSearch()
+        {
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                var map = await Client.Search(null);
+            });
+        }
+        #endregion
+
+        #region SearchAdvanced
+        [TestMethod]
+        public async Task ValidSearchAdvanced()
+        {
+            var maps = await Client.SearchAdvanced("uploader.username:lolpants AND name:overcooked");
+            Assert.IsTrue(maps.TotalDocs == 1);
+            Assert.IsTrue(maps.Docs.Count == 1);
+
+            var map = maps.Docs[0];
+            CheckOvercooked(map);
+        }
+
+        [TestMethod]
+        public async Task NullSearchAdvanced()
+        {
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                var map = await Client.SearchAdvanced(null);
+            });
+        }
+        #endregion
+
+        #region User
+        [TestMethod]
+        public async Task ValidUser()
+        {
+            var user = await Client.User("5cff0b7298cc5a672c84e98d");
+
+            Assert.AreEqual(user.ID, "5cff0b7298cc5a672c84e98d");
+            Assert.AreEqual(user.Username, "bennydabeast");
+        }
+
+        [TestMethod]
+        public async Task InvalidUser()
+        {
+            var user = await Client.User("user");
+            Assert.IsNull(user);
+        }
+
+        [TestMethod]
+        public async Task NullUser()
+        {
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                var user = await Client.User(null);
+            });
+        }
+        #endregion
         #endregion
     }
 }
