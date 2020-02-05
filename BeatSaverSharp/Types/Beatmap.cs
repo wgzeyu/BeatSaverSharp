@@ -75,6 +75,12 @@ namespace BeatSaverSharp
         public User Uploader { get; private set; }
 
         /// <summary>
+        /// Timestamp when this map was uploaded
+        /// </summary>
+        [JsonProperty("uploaded")]
+        public DateTime Uploaded { get; private set; }
+
+        /// <summary>
         /// Metadata for the Beatmap .dat file
         /// </summary>
         [JsonProperty("metadata")]
@@ -156,6 +162,7 @@ namespace BeatSaverSharp
             Name = map.Name;
             Description = map.Description;
             Uploader = map.Uploader;
+            Uploaded = map.Uploaded;
             Metadata = map.Metadata;
             Stats = map.Stats;
             DirectDownload = map.DirectDownload;
