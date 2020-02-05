@@ -16,10 +16,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.100'
-    - name: Run tests
-      run: dotnet test
     - name: Build solution
-      run: dotnet build -c release BeatSaverSharp/BeatSaverSharp.csproj
+      run: dotnet build -c release
+    - name: Run tests
+      run: dotnet test -c Release
     - name: Prepare artifact
       if: contains(github.ref, 'refs/tags/') == false
       shell: bash
