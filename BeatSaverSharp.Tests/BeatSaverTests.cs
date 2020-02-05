@@ -53,7 +53,7 @@ namespace BeatSaverSharp.Tests
         public async Task ValidKey()
         {
             var map = await Client.Key("17f9");
-            CheckTestMap(map);
+            CheckTowerOfHeaven(map);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace BeatSaverSharp.Tests
         public async Task ValidHash()
         {
             var map = await Client.Hash("108c239db3c0596f1ba7426353af1b4cc4fd8b08");
-            CheckTestMap(map);
+            CheckTowerOfHeaven(map);
         }
 
         [TestMethod]

@@ -13,7 +13,7 @@ namespace BeatSaverSharp.Tests
 
         internal static readonly BeatSaver Client = new BeatSaver(Options);
 
-        internal static void CheckTestMap(Beatmap map)
+        internal static void CheckTowerOfHeaven(Beatmap map)
         {
             Assert.AreEqual(map.ID, "5cff621048229f7d88fc724c");
             Assert.AreEqual(map.Key, "17f9");
@@ -21,6 +21,16 @@ namespace BeatSaverSharp.Tests
 
             Assert.AreEqual(map.Uploader.ID, "5cff0b7498cc5a672c850786");
             Assert.AreEqual(map.Uploader.Username, "zorowo");
+        }
+
+        internal static void CheckOvercooked(Beatmap map)
+        {
+            Assert.AreEqual(map.ID, "5cff621748229f7d88fc9278");
+            Assert.AreEqual(map.Key, "4c19");
+            Assert.AreEqual(map.Hash, "64ec3d5b0f9239a56d1e709daf29dfa00a42cbef");
+
+            Assert.AreEqual(map.Uploader.ID, "5cff0b7398cc5a672c84efe4");
+            Assert.AreEqual(map.Uploader.Username, "lolpants");
         }
     }
 }
