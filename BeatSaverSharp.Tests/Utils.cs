@@ -15,6 +15,8 @@ namespace BeatSaverSharp.Tests
 
         internal static void CheckTowerOfHeaven(Beatmap map)
         {
+            Assert.IsNotNull(map);
+
             Assert.AreEqual(map.ID, "5cff621048229f7d88fc724c");
             Assert.AreEqual(map.Key, "17f9");
             Assert.AreEqual(map.Hash, "108c239db3c0596f1ba7426353af1b4cc4fd8b08");
@@ -25,6 +27,8 @@ namespace BeatSaverSharp.Tests
 
         internal static void CheckOvercooked(Beatmap map)
         {
+            Assert.IsNotNull(map);
+
             Assert.AreEqual(map.ID, "5cff621748229f7d88fc9278");
             Assert.AreEqual(map.Key, "4c19");
             Assert.AreEqual(map.Hash, "64ec3d5b0f9239a56d1e709daf29dfa00a42cbef");
