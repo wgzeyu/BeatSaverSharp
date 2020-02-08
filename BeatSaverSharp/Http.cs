@@ -90,10 +90,13 @@ namespace BeatSaverSharp
             Agents = new ApplicationAgent[0],
         });
 
+        internal HttpOptions Options { get; private set; }
         internal HttpClient Client { get; private set; }
 
         internal Http(HttpOptions options = new HttpOptions())
         {
+            Options = options;
+
             if ((options.ApplicationName != null && options.Version == null) || (options.ApplicationName == null && options.Version != null))
             {
                 throw new ArgumentException("You must specify either both or none of ApplicationName and Version");
