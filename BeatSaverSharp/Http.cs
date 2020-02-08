@@ -35,6 +35,11 @@ namespace BeatSaverSharp
         public TimeSpan? Timeout { get; set; }
 
         /// <summary>
+        /// Automatically handle Rate Limit Errors
+        /// </summary>
+        public bool HandleRateLimits { get; set; }
+
+        /// <summary>
         /// Additional agents to list in User-Agent string
         /// </summary>
         public ApplicationAgent[] Agents { get; set; }
@@ -87,6 +92,7 @@ namespace BeatSaverSharp
             ApplicationName = null,
             Version = null,
             Timeout = TimeSpan.FromSeconds(30),
+            HandleRateLimits = false,
             Agents = new ApplicationAgent[0],
         });
 
@@ -139,7 +145,22 @@ namespace BeatSaverSharp
             HttpResponseMessage resp = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
             if ((int)resp.StatusCode == 429)
             {
-                throw new RateLimitExceededException(resp);
+                var ex = new RateLimitExceededException(resp);
+                if (Options.HandleRateLimits == false)
+                {
+                    throw ex;
+                }
+
+                RateLimitInfo info = ex.RateLimit;
+                TimeSpan diff = info.Reset - DateTime.Now;
+
+                int millis = (int)diff.TotalMilliseconds;
+                if (millis > 0)
+                {
+                    await Task.Delay(millis).ConfigureAwait(false);
+                }
+
+                return await GetAsync(url, token, progress).ConfigureAwait(false);
             }
 
             if (token.IsCancellationRequested) throw new TaskCanceledException();
