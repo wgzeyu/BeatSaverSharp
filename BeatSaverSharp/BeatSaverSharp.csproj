@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeSymbols>true</IncludeSymbols>
-    <Version>1.5.2</Version>
+    <Version>1.5.3</Version>
     <Authors>lolPants</Authors>
     <Company>Jack Baron DEV</Company>
     <Description>Official C# Library to interact with the BeatSaver API</Description>
