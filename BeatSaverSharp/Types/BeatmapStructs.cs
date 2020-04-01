@@ -32,7 +32,7 @@ namespace BeatSaverSharp
         /// Duration of the Audio File (in seconds)
         /// </summary>
         [JsonProperty("duration")]
-        public int Duration { get; private set; }
+        public long Duration { get; private set; }
 
         /// <summary>
         /// Beats per Minute
@@ -111,7 +111,7 @@ namespace BeatSaverSharp
         /// Length of the beatmap (in seconds)
         /// </summary>
         [JsonProperty("length")]
-        public int Length { get; private set; }
+        public long Length { get; private set; }
 
         /// <summary>
         /// Bomb Count
