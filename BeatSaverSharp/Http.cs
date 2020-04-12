@@ -87,7 +87,7 @@ namespace BeatSaverSharp
     {
         internal static readonly JsonSerializer Serializer = new JsonSerializer();
 
-        internal static readonly Http Default = new Http(new HttpOptions()
+        internal static readonly Http Default = new Http(new HttpOptions
         {
             ApplicationName = null,
             Version = null,
@@ -108,7 +108,7 @@ namespace BeatSaverSharp
                 throw new ArgumentException("You must specify either both or none of ApplicationName and Version");
             }
 
-            HttpClientHandler handler = new HttpClientHandler()
+            HttpClientHandler handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             };

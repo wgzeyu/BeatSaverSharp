@@ -14,7 +14,7 @@ XML Documentation has been provided for this library. Most tasks will be done th
 using System;
 using BeatSaverSharp;
 
-HttpOptions options = new HttpOptions()
+HttpOptions options = new HttpOptions
 {
     ApplicationName = "Test Client",
     Version = new Version(1, 0, 0),
