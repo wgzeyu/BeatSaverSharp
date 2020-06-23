@@ -74,11 +74,12 @@ namespace BeatSaverSharp
             return b;
         }
 
-        internal async Task<Page> FetchMapsPage(string type, uint page, CancellationToken token, IProgress<double> progress = null)
+        internal async Task<Page> FetchMapsPage(string type, uint page, CancellationToken token, IProgress<double> progress = null, AutomapperQuery automappers = AutomapperQuery.None)
         {
             Page p = await FetchPaged($"maps/{type}/{page}", token, progress).ConfigureAwait(false);
             p.PageURI = $"maps/{type}";
 
+            // TODO: Query with automappers
             return p;
         }
 
@@ -108,80 +109,134 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Latest(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, CancellationToken.None, progress).ConfigureAwait(false);
+        public async Task<Page> Latest(
+            uint page = 0,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Latest, page, CancellationToken.None, progress, automappers).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of Latest beatmaps
         /// </summary>
         /// <param name="page">Page index</param>
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Latest(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Latest, page, token, progress).ConfigureAwait(false);
+        public async Task<Page> Latest(
+            uint page, CancellationToken token,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Latest, page, token, progress, automappers).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of Hot beatmaps
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Hot(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, CancellationToken.None, progress).ConfigureAwait(false);
+        public async Task<Page> Hot(
+            uint page = 0,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Hot, page, CancellationToken.None, progress, automappers).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of Hot beatmaps
         /// </summary>
         /// <param name="page">Page index</param>
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Hot(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Hot, page, token, progress).ConfigureAwait(false);
+        public async Task<Page> Hot(
+            uint page,
+            CancellationToken token,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Hot, page, token, progress, automappers).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their Rating
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Rating(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, CancellationToken.None, progress).ConfigureAwait(false);
+        public async Task<Page> Rating(
+            uint page = 0,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Rating, page, CancellationToken.None, progress, automappers).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their Rating
         /// </summary>
         /// <param name="page">Page index</param>
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Rating(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Rating, page, token, progress).ConfigureAwait(false);
+        public async Task<Page> Rating(
+            uint page,
+            CancellationToken token,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Rating, page, token, progress, automappers).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their download count
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Downloads(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, CancellationToken.None, progress).ConfigureAwait(false);
+        public async Task<Page> Downloads(
+            uint page = 0,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Downloads, page, CancellationToken.None, progress, automappers).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their download count
         /// </summary>
         /// <param name="page">Page index</param>
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Downloads(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Downloads, page, token, progress).ConfigureAwait(false);
+        public async Task<Page> Downloads(
+            uint page,
+            CancellationToken token,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Downloads, page, token, progress, automappers).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a page of beatmaps ordered by their play count
         /// </summary>
         /// <param name="page">Optional page index (defaults to 0)</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Plays(uint page = 0, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, CancellationToken.None, progress).ConfigureAwait(false);
+        public async Task<Page> Plays(
+            uint page = 0,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Plays, page, CancellationToken.None, progress, automappers).ConfigureAwait(false);
         /// <summary>
         /// Fetch a page of beatmaps ordered by their play count
         /// </summary>
         /// <param name="page">Page index</param>
         /// <param name="token">Cancellation token</param>
         /// <param name="progress">Optional progress reporter</param>
+        /// <param name="automappers">Include automappers in results</param>
         /// <returns></returns>
-        public async Task<Page> Plays(uint page, CancellationToken token, IProgress<double> progress = null) => await FetchMapsPage(PageType.Plays, page, token, progress).ConfigureAwait(false);
+        public async Task<Page> Plays(
+            uint page,
+            CancellationToken token,
+            IProgress<double> progress = null,
+            AutomapperQuery automappers = AutomapperQuery.None
+        ) => await FetchMapsPage(PageType.Plays, page, token, progress, automappers).ConfigureAwait(false);
 
         /// <summary>
         /// Fetch a Beatmap by Key

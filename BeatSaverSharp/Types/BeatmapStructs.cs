@@ -41,6 +41,12 @@ namespace BeatSaverSharp
         public float BPM { get; private set; }
 
         /// <summary>
+        /// Automapper Status
+        /// </summary>
+        [JsonProperty("automapper")]
+        public string Automapper { get; private set; }
+
+        /// <summary>
         /// </summary>
         [JsonProperty("difficulties")]
         public Difficulties Difficulties { get; private set; }
