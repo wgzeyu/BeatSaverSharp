@@ -76,10 +76,19 @@ namespace BeatSaverSharp
 
         internal async Task<Page> FetchMapsPage(string type, uint page, CancellationToken token, IProgress<double> progress = null, AutomapperQuery automappers = AutomapperQuery.None)
         {
-            Page p = await FetchPaged($"maps/{type}/{page}", token, progress).ConfigureAwait(false);
-            p.PageURI = $"maps/{type}";
+            string pageURI = $"maps/{type}";
+            string url = $"{pageURI}/{page}";
+            string query = null;
 
-            // TODO: Query with automappers
+            if (automappers == AutomapperQuery.All || automappers == AutomapperQuery.Only) {
+                query = $"automapper={(int)automappers}";
+                url += $"?{query}";
+            }
+
+            Page p = await FetchPaged(url, token, progress).ConfigureAwait(false);
+            p.PageURI = pageURI;
+            if (query != null) p.Query = query;
+
             return p;
         }
 
