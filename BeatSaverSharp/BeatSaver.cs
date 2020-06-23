@@ -90,13 +90,13 @@ namespace BeatSaverSharp
                 throw new ArgumentNullException(nameof(query), "Query string cannot be null");
             }
 
-            string encoded = Uri.EscapeUriString(query);
             string pageURI = $"search/{searchType}";
+            string q = $"q={Uri.EscapeUriString(query)}";
 
-            string url = $"{pageURI}/{page}?q={encoded}";
+            string url = $"{pageURI}/{page}?{q}";
             Page p = await FetchPaged(url, token, progress).ConfigureAwait(false);
 
-            p.Query = query;
+            p.Query = q;
             p.PageURI = pageURI;
 
             return p;
