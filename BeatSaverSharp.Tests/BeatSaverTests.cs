@@ -83,25 +83,25 @@ namespace BeatSaverSharp.Tests
             Assert.IsNull(map);
         }
 
-        [TestMethod]
-        public async Task WithProgress()
-        {
-            var map = await Client.Key("4c19");
-            Assert.IsNotNull(map);
+        // [TestMethod]
+        // public async Task WithProgress()
+        // {
+        //     var map = await Client.Key("4c19");
+        //     Assert.IsNotNull(map);
 
-            int updates = 0;
-            Progress<double> progress = new Progress<double>();
-            progress.ProgressChanged += (_, p) =>
-            {
-                updates += 1;
+        //     int updates = 0;
+        //     Progress<double> progress = new Progress<double>();
+        //     progress.ProgressChanged += (_, p) =>
+        //     {
+        //         updates += 1;
 
-                Assert.IsTrue(p >= 0);
-                Assert.IsTrue(p <= 1);
-            };
+        //         Assert.IsTrue(p >= 0);
+        //         Assert.IsTrue(p <= 1);
+        //     };
 
-            await Task.Run(() => map.FetchCoverImage(progress: progress));
-            Assert.IsTrue(updates > 0, $"Updates: {updates}");
-        }
+        //     await Task.Run(() => map.FetchCoverImage(progress: progress));
+        //     Assert.IsTrue(updates > 0, $"Updates: {updates}");
+        // }
         #endregion
 
         #region Method Tests
