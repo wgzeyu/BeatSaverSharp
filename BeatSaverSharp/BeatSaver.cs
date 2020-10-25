@@ -17,7 +17,7 @@ namespace BeatSaverSharp
         /// <summary>
         /// BeatSaver Base URL
         /// </summary>
-        public const string BaseURL = "https://beatsaver.com";
+        public const string BaseURL = "https://beatsaver.wgzeyu.top";
 
         /// <summary>
         /// Default API Instance
